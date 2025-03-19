@@ -59,7 +59,7 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-b from-green-200 to-green-50 p-6 relative">
+    <div className="flex flex-col h-svh bg-gradient-to-b from-green-200 to-green-50 p-6 relative">
       <div className="flex items-center justify-center mb-6">
         <MessageCircle className="text-green-700 w-10 h-10" />
         <h1 className="md:text-3xl text-xl font-bold text-green-800 ml-3">
