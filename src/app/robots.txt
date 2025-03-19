@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chatbot-ai-eco.vercel.app/sitemap.xml
