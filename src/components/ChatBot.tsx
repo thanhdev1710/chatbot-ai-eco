@@ -28,7 +28,10 @@ export default function Chatbot() {
     try {
       const response = await fetch(process.env.NEXT_PUBLIC_API_URL!, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+        },
         body: JSON.stringify({ message: input }),
         signal: abortController.signal,
       });
