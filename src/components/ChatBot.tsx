@@ -26,7 +26,7 @@ export default function Chatbot() {
     setController(abortController);
 
     try {
-      const response = await fetch("/api/chatbot", {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL!, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
