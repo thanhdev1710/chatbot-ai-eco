@@ -19,36 +19,36 @@ export default function Chatbot() {
   const [botTyping, setBotTyping] = useState(false);
   const questions = [
     {
-      name: "Thông tin công ty?",
-      value: "Thông tin công ty ScrapBike?",
+      name: "Giới thiệu về công ty",
+      value: "ScrapBike là công ty gì? Thông tin chi tiết về công ty?",
     },
     {
-      name: "Tham khảo giá cả?",
-      value: "Xuất ra danh sách giá nhập và giá bán?",
+      name: "Bảng giá phế liệu",
+      value: "Danh sách giá thu mua và giá bán phế liệu hiện tại?",
     },
     {
-      name: "Thu mua phế liệu?",
-      value: "Quy trình thu mua phế liệu?",
+      name: "Quy trình thu mua phế liệu",
+      value: "ScrapBike thu mua phế liệu theo quy trình nào?",
     },
     {
-      name: "Thu mua phế liệu1?",
-      value: "Quy trình thu mua phế liệu?",
+      name: "Điều kiện thu mua phế liệu",
+      value: "Công ty có yêu cầu gì khi thu mua phế liệu không?",
     },
     {
-      name: "Thu mua phế liệu2?",
-      value: "Quy trình thu mua phế liệu?",
+      name: "Loại phế liệu thu mua",
+      value: "ScrapBike thu mua những loại phế liệu nào?",
     },
     {
-      name: "Thu mua phế liệu3?",
-      value: "Quy trình thu mua phế liệu?",
+      name: "Phương thức thanh toán",
+      value: "Công ty thanh toán như thế nào khi thu mua phế liệu?",
     },
     {
-      name: "Thu mua phế liệu4?",
-      value: "Quy trình thu mua phế liệu?",
+      name: "Vận chuyển phế liệu",
+      value: "ScrapBike có hỗ trợ vận chuyển phế liệu không?",
     },
     {
-      name: "Thu mua phế liệu5?",
-      value: "Quy trình thu mua phế liệu?",
+      name: "Liên hệ thu mua",
+      value: "Làm thế nào để liên hệ với ScrapBike để bán phế liệu?",
     },
   ];
   const sendMessage = async () => {
