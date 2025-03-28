@@ -14,7 +14,7 @@ export default function Chatbot() {
       sender: "bot",
     },
   ]);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState({ name: "", value: "" });
   const [controller, setController] = useState<AbortController | null>(null);
   const [botTyping, setBotTyping] = useState(false);
   const questions = [
@@ -52,10 +52,10 @@ export default function Chatbot() {
     },
   ];
   const sendMessage = async () => {
-    if (loading || !input.trim()) return;
+    if (loading || !input.value.trim()) return;
 
-    setMessages([...messages, { text: input, sender: "user" }]);
-    setInput("");
+    setMessages([...messages, { text: input.name, sender: "user" }]);
+    setInput({ name: "", value: "" });
     setLoading(true);
     setBotTyping(true);
 
@@ -69,7 +69,7 @@ export default function Chatbot() {
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": "true",
         },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ message: input.value }),
         signal: abortController.signal,
       });
 
@@ -162,14 +162,18 @@ export default function Chatbot() {
       >
         <textarea
           disabled={loading}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+          value={input.value}
+          onChange={(e) =>
+            setInput({ name: e.target.value, value: e.target.value })
+          }
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
               if (e.shiftKey) {
                 // Shift + Enter để xuống dòng
-                setInput((prev) => prev + "\n");
+                setInput((prev) => {
+                  return { name: prev.name + "\n", value: prev.value + "\n" };
+                });
               } else {
                 e.currentTarget.form?.requestSubmit();
               }

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { motion } from "framer-motion";
 
 export const ScrollableButtons = ({
@@ -7,7 +7,12 @@ export const ScrollableButtons = ({
   sendMessage,
 }: {
   questions: { name: string; value: string }[];
-  setInput: (value: string) => void;
+  setInput: Dispatch<
+    SetStateAction<{
+      name: string;
+      value: string;
+    }>
+  >;
   sendMessage: () => Promise<void>;
 }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -36,7 +41,7 @@ export const ScrollableButtons = ({
               >
                 <button
                   type="submit"
-                  onClick={() => setInput(q.value)}
+                  onClick={() => setInput({ name: q.name, value: q.value })}
                   className="bg-green-600 select-none hover:bg-green-700 cursor-pointer rounded-full py-1.5 px-4 text-white text-[14px] min-w-[100px] text-center"
                 >
                   {q.name}
@@ -66,7 +71,7 @@ export const ScrollableButtons = ({
               >
                 <button
                   type="submit"
-                  onClick={() => setInput(q.value)}
+                  onClick={() => setInput({ name: q.name, value: q.value })}
                   className="bg-green-600 select-none hover:bg-green-700 cursor-pointer rounded-full py-1.5 px-4 text-white text-[14px] min-w-[100px] text-center"
                 >
                   {q.name}
