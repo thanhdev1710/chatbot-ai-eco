@@ -1,21 +1,58 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageCircle, Send, XCircle } from "lucide-react";
+import { Bot, MessageCircle, Send, User, XCircle } from "lucide-react";
+import { ScrollableButtons } from "./ScrollButton";
 
 export default function Chatbot() {
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([
-    { text: "Chào mừng bạn đến với chatbot môi trường!", sender: "bot" },
+    {
+      text: "Xin chào tôi là Scrap, trợ lý ảo của công ty ScrapBike!",
+      sender: "bot",
+    },
   ]);
   const [input, setInput] = useState("");
   const [controller, setController] = useState<AbortController | null>(null);
   const [botTyping, setBotTyping] = useState(false);
-
+  const questions = [
+    {
+      name: "Thông tin công ty?",
+      value: "Thông tin công ty ScrapBike?",
+    },
+    {
+      name: "Tham khảo giá cả?",
+      value: "Xuất ra danh sách giá nhập và giá bán?",
+    },
+    {
+      name: "Thu mua phế liệu?",
+      value: "Quy trình thu mua phế liệu?",
+    },
+    {
+      name: "Thu mua phế liệu1?",
+      value: "Quy trình thu mua phế liệu?",
+    },
+    {
+      name: "Thu mua phế liệu2?",
+      value: "Quy trình thu mua phế liệu?",
+    },
+    {
+      name: "Thu mua phế liệu3?",
+      value: "Quy trình thu mua phế liệu?",
+    },
+    {
+      name: "Thu mua phế liệu4?",
+      value: "Quy trình thu mua phế liệu?",
+    },
+    {
+      name: "Thu mua phế liệu5?",
+      value: "Quy trình thu mua phế liệu?",
+    },
+  ];
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (loading || !input.trim()) return;
 
     setMessages([...messages, { text: input, sender: "user" }]);
     setInput("");
@@ -41,7 +78,6 @@ export default function Chatbot() {
       const data = await response.json();
 
       setMessages((prev) => [...prev, { text: data.reply, sender: "bot" }]);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.name === "AbortError") {
         setMessages((prev) => [
@@ -62,27 +98,45 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex flex-col h-svh bg-gradient-to-b from-green-200 to-green-50 p-6 relative">
+    <div className="flex flex-col h-svh p-6 relative">
       <div className="flex items-center justify-center mb-6">
         <MessageCircle className="text-green-700 w-10 h-10" />
         <h1 className="md:text-3xl text-xl font-bold text-green-800 ml-3">
-          Chatbot - Môi trường
+          Trợ lý ảo Scrap
         </h1>
       </div>
-      <div className="flex-1 overflow-y-auto overflow-x-hidden space-y-4 p-4 bg-white rounded-xl shadow-lg border border-green-300">
+      <div
+        style={{ scrollbarWidth: "none" }}
+        className="flex-1 overflow-y-auto  overflow-x-hidden space-y-4 p-4 bg-white rounded-xl shadow-lg border border-green-300"
+      >
         {messages.map((msg, index) => (
-          <Card
-            key={index}
-            className={`text-lg font-medium lg:max-w-lg md:max-w-md max-w-sm ${
-              msg.sender === "user"
-                ? "ml-auto bg-green-200 text-green-900"
-                : "text-gray-800"
-            }`}
-          >
-            <CardContent className="break-words whitespace-pre-wrap">
-              {msg.text}
-            </CardContent>
-          </Card>
+          <div className="flex items-center gap-2" key={index}>
+            {msg.sender !== "user" && (
+              <div
+                className={`p-1 size-9 flex items-center justify-center shadow-lg border rounded-full text-gray-800`}
+              >
+                <Bot />
+              </div>
+            )}
+            <Card
+              className={`text-lg font-medium lg:max-w-lg md:max-w-md max-w-sm flex items-center gap-2 p-3 ${
+                msg.sender === "user"
+                  ? "ml-auto bg-green-200 text-green-900 flex-row-reverse"
+                  : "text-gray-800"
+              }`}
+            >
+              <CardContent className="break-words whitespace-pre-wrap">
+                {msg.text}
+              </CardContent>
+            </Card>
+            {msg.sender === "user" && (
+              <div
+                className={`p-1 size-9 flex items-center justify-center shadow-lg border rounded-full bg-green-200 text-green-900`}
+              >
+                <User />
+              </div>
+            )}
+          </div>
         ))}
         {botTyping && (
           <Card className="max-w-xs bg-gray-100 text-gray-800 p-3 rounded-lg shadow-md text-lg font-medium">
@@ -94,19 +148,36 @@ export default function Chatbot() {
           </Card>
         )}
       </div>
+      <ScrollableButtons
+        questions={questions}
+        sendMessage={sendMessage}
+        setInput={setInput}
+      />
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          sendMessage();
+          await sendMessage();
         }}
-        className="mt-6 flex items-center gap-3"
+        className="mt-2 flex items-center gap-3"
       >
-        <Input
+        <textarea
           disabled={loading}
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              if (e.shiftKey) {
+                // Shift + Enter để xuống dòng
+                setInput((prev) => prev + "\n");
+              } else {
+                e.currentTarget.form?.requestSubmit();
+              }
+            }
+          }}
           placeholder="Nhập tin nhắn..."
-          className="flex-1 border-green-500 px-4 py-2 rounded-lg shadow-inner focus:ring-2 focus:ring-green-600"
+          rows={1} // Giữ chiều cao ban đầu giống input
+          className="w-full border border-green-500 px-4 py-2 rounded-lg shadow-inner focus:ring-2 focus:ring-green-600 resize-none overflow-hidden"
         />
         <Button
           type="submit"
