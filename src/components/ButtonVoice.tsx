@@ -8,7 +8,7 @@ export default function ButtonVoice({ text }: { text: string }) {
   const handlePlay = async (value: string) => {
     try {
       setVoiceLoading(true);
-      const response = await fetch("http://127.0.0.1:5000/tts", {
+      const response = await fetch("https://gtts-2dfw.onrender.com/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: value }),
