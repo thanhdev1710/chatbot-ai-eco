@@ -17,6 +17,7 @@ import { ScrollableButtons } from "./ScrollButton";
 import ButtonVoice from "./ButtonVoice";
 import { questions } from "@/lib/base";
 import ButtonCopy from "./ButtonCopy";
+import VoiceRecorderButton from "./ButtonMic";
 
 export default function Chatbot() {
   const [loading, setLoading] = useState(false);
@@ -149,6 +150,14 @@ export default function Chatbot() {
           placeholder="Nhập tin nhắn..."
           rows={1}
           className="w-full border px-4 py-2 rounded-lg shadow-inner focus:ring-2 resize-none"
+        />
+        <VoiceRecorderButton
+          loading={loading}
+          messages={messages}
+          setBotTyping={setBotTyping}
+          setController={setController}
+          setLoading={setLoading}
+          setMessages={setMessages}
         />
         <Button
           type="submit"
